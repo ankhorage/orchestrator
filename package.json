@@ -2,8 +2,17 @@
   "name": "@ankhorage/orchestrator",
   "version": "0.1.2",
   "type": "module",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankhorage/orchestrator.git"
+  },
+  "homepage": "https://github.com/ankhorage/orchestrator#readme",
+  "bugs": {
+    "url": "https://github.com/ankhorage/orchestrator/issues"
+  },
   "files": [
     "dist"
   ],
@@ -22,7 +31,7 @@
     "test": "bun test",
     "knip": "bunx knip",
     "changeset": "changeset",
-    "changeset:version": "changeset version"
+    "version-packages": "changeset version"
   },
   "devDependencies": {
     "@ankhorage/devtools": "^1.0.1",
