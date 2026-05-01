@@ -34,4 +34,3 @@ jobs:
 
       - name: Knip
         run: bunx knip
-
