@@ -13,6 +13,14 @@
   "bugs": {
     "url": "https://github.com/ankhorage/orchestrator/issues"
   },
+  "keywords": [
+    "typescript",
+    "bun",
+    "orchestration",
+    "automation",
+    "developer-tools",
+    "modules"
+  ],
   "files": [
     "dist"
   ],
