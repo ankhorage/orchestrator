@@ -1,4 +1,4 @@
-import type { ModuleAction } from "../actions/types";
+import type { ModuleAction } from '../actions/types';
 
 export interface ModuleContext<TConfig = unknown> {
   projectRoot: string;
@@ -10,7 +10,5 @@ export interface ModuleDefinition<TConfig = unknown> {
   id: string;
   version?: string;
   dependencies?: string[];
-  plan(
-    context: ModuleContext<TConfig>,
-  ): Promise<ModuleAction[]> | ModuleAction[];
+  plan(context: ModuleContext<TConfig>): Promise<ModuleAction[]> | ModuleAction[];
 }

@@ -1,7 +1,7 @@
-import { execFile as execFileCallback } from "node:child_process";
-import { promisify } from "node:util";
+import { execFile as execFileCallback } from 'node:child_process';
+import { promisify } from 'node:util';
 
-import type { CommandExecutor } from "./types";
+import type { CommandExecutor } from './types';
 
 const execFile = promisify(execFileCallback);
 
@@ -14,15 +14,15 @@ export class NodeCommandExecutor implements CommandExecutor {
       if (error instanceof Error) {
         return {
           code: 1,
-          stdout: "",
+          stdout: '',
           stderr: error.message,
         };
       }
 
       return {
         code: 1,
-        stdout: "",
-        stderr: "Unknown exec error",
+        stdout: '',
+        stderr: 'Unknown exec error',
       };
     }
   }

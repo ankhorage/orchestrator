@@ -1,7 +1,7 @@
-import { removeTextBlock } from "../fs/patchTextBlock";
-import { resolveProjectPath } from "../fs/paths";
-import type { CommandExecutor, FileSystem } from "../fs/types";
-import type { ModuleLedger } from "../ledger/types";
+import { removeTextBlock } from '../fs/patchTextBlock';
+import { resolveProjectPath } from '../fs/paths';
+import type { CommandExecutor, FileSystem } from '../fs/types';
+import type { ModuleLedger } from '../ledger/types';
 
 export async function uninstallFromLedger(args: {
   projectRoot: string;
@@ -13,23 +13,17 @@ export async function uninstallFromLedger(args: {
   const snapshotPaths = new Set(
     ledger.applied
       .filter(
-        (
-          operation,
-        ): operation is Extract<
-          typeof operation,
-          { kind: "json-file-snapshot" }
-        > => operation.kind === "json-file-snapshot",
+        (operation): operation is Extract<typeof operation, { kind: 'json-file-snapshot' }> =>
+          operation.kind === 'json-file-snapshot',
       )
       .map((operation) => operation.path),
   );
 
   for (const operation of [...ledger.applied].reverse()) {
     switch (operation.kind) {
-      case "file-write": {
+      case 'file-write': {
         if (operation.prevContent === null) {
-          await fileSystem.remove(
-            resolveProjectPath(projectRoot, operation.path),
-          );
+          await fileSystem.remove(resolveProjectPath(projectRoot, operation.path));
         } else {
           await fileSystem.writeText(
             resolveProjectPath(projectRoot, operation.path),
@@ -39,11 +33,9 @@ export async function uninstallFromLedger(args: {
         break;
       }
 
-      case "text-block-insert": {
+      case 'text-block-insert': {
         if (operation.created) {
-          await fileSystem.remove(
-            resolveProjectPath(projectRoot, operation.path),
-          );
+          await fileSystem.remove(resolveProjectPath(projectRoot, operation.path));
         } else {
           await removeTextBlock({
             fileSystem,
@@ -54,11 +46,8 @@ export async function uninstallFromLedger(args: {
         break;
       }
 
-      case "pkg-add": {
-        const result = await commandExecutor.exec(projectRoot, "bun", [
-          "remove",
-          operation.name,
-        ]);
+      case 'pkg-add': {
+        const result = await commandExecutor.exec(projectRoot, 'bun', ['remove', operation.name]);
         if (result.code !== 0) {
           throw new Error(
             `Package uninstall failed for ${operation.name} (${ledger.moduleId}): ${
@@ -69,7 +58,7 @@ export async function uninstallFromLedger(args: {
         break;
       }
 
-      case "json-file-snapshot": {
+      case 'json-file-snapshot': {
         const absolutePath = resolveProjectPath(projectRoot, operation.path);
         if (operation.prevContent === null) {
           await fileSystem.remove(absolutePath);
@@ -79,7 +68,7 @@ export async function uninstallFromLedger(args: {
         break;
       }
 
-      case "json-set": {
+      case 'json-set': {
         if (snapshotPaths.has(operation.path)) {
           break;
         }

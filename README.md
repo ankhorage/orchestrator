@@ -22,8 +22,8 @@ bun add @ankhorage/orchestrator
 ## 📦 Usage
 
 ```ts
-orchestrator.install("expo-localization");
-orchestrator.uninstall("expo-localization");
+orchestrator.install('expo-localization');
+orchestrator.uninstall('expo-localization');
 ```
 
 ## 🧪 Use Cases

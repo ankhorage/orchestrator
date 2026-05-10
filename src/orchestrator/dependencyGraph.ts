@@ -1,8 +1,6 @@
-import type { ModuleDefinition } from "../module/types";
+import type { ModuleDefinition } from '../module/types';
 
-export function createModuleRegistry(
-  modules: ModuleDefinition[],
-): Map<string, ModuleDefinition> {
+export function createModuleRegistry(modules: ModuleDefinition[]): Map<string, ModuleDefinition> {
   const registry = new Map<string, ModuleDefinition>();
 
   for (const moduleDefinition of modules) {
@@ -33,9 +31,7 @@ export function resolveInstallOrder(
     }
 
     if (visiting.has(currentId)) {
-      throw new Error(
-        `Dependency cycle detected: ${[...stack, currentId].join(" -> ")}`,
-      );
+      throw new Error(`Dependency cycle detected: ${[...stack, currentId].join(' -> ')}`);
     }
 
     const moduleDefinition = registry.get(currentId);
@@ -45,8 +41,8 @@ export function resolveInstallOrder(
 
     visiting.add(currentId);
 
-    const dependencies = [...new Set(moduleDefinition.dependencies ?? [])].sort(
-      (left, right) => left.localeCompare(right),
+    const dependencies = [...new Set(moduleDefinition.dependencies ?? [])].sort((left, right) =>
+      left.localeCompare(right),
     );
 
     for (const dependencyId of dependencies) {

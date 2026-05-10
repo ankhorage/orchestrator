@@ -5,7 +5,7 @@ export interface ModuleDependency {
 }
 
 export interface EnsurePackagesAction {
-  type: "ensure-packages";
+  type: 'ensure-packages';
   add: ModuleDependency[];
 }
 
@@ -16,12 +16,12 @@ export interface WriteFileInstruction {
 }
 
 export interface WriteFilesAction {
-  type: "write-files";
+  type: 'write-files';
   files: WriteFileInstruction[];
 }
 
 export interface JsonSetAction {
-  type: "json-set";
+  type: 'json-set';
   path: string;
   jsonPath: string;
   value: unknown;
@@ -30,13 +30,13 @@ export interface JsonSetAction {
 }
 
 export interface PatchTextBlockAction {
-  type: "patch-text-block";
+  type: 'patch-text-block';
   path: string;
   blockId: string;
   content: string;
   anchor?: {
     find: string;
-    position: "before" | "after";
+    position: 'before' | 'after';
   };
 }
 

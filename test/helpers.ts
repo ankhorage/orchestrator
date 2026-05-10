@@ -1,21 +1,21 @@
-import path from "node:path";
+import path from 'node:path';
 
 import type {
   CommandExecutor,
   CommandResult,
   FileSystem,
   OrchestratorServices,
-} from "../src/fs/types";
-import type { ModuleDefinition } from "../src/module/types";
-import { createOrchestratorWithServices } from "../src/orchestrator/createOrchestrator";
+} from '../src/fs/types';
+import type { ModuleDefinition } from '../src/module/types';
+import { createOrchestratorWithServices } from '../src/orchestrator/createOrchestrator';
 
-export interface RecordedCommand {
+interface RecordedCommand {
   cwd: string;
   command: string;
   args: string[];
 }
 
-export class MemoryFileSystem implements FileSystem {
+class MemoryFileSystem implements FileSystem {
   private readonly files = new Map<string, string>();
 
   constructor(private readonly projectRoot: string) {}
@@ -70,16 +70,12 @@ export class MemoryFileSystem implements FileSystem {
       }
     }
 
-    return Promise.resolve(
-      [...entries].sort((left, right) => left.localeCompare(right)),
-    );
+    return Promise.resolve([...entries].sort((left, right) => left.localeCompare(right)));
   }
 
   snapshot(): Record<string, string> {
     return Object.fromEntries(
-      [...this.files.entries()].sort(([left], [right]) =>
-        left.localeCompare(right),
-      ),
+      [...this.files.entries()].sort(([left], [right]) => left.localeCompare(right)),
     );
   }
 
@@ -88,7 +84,7 @@ export class MemoryFileSystem implements FileSystem {
   }
 }
 
-export class RecordingExecutor implements CommandExecutor {
+class RecordingExecutor implements CommandExecutor {
   public readonly commands: RecordedCommand[] = [];
   private readonly failures = new Map<string, CommandResult>();
 
@@ -103,8 +99,8 @@ export class RecordingExecutor implements CommandExecutor {
 
     return Promise.resolve({
       code: 0,
-      stdout: "",
-      stderr: "",
+      stdout: '',
+      stderr: '',
     });
   }
 
@@ -118,7 +114,7 @@ export function createTestOrchestrator(args: {
   projectRoot?: string;
   now?: () => string;
 }) {
-  const projectRoot = args.projectRoot ?? "/virtual/project";
+  const projectRoot = args.projectRoot ?? '/virtual/project';
   const fileSystem = new MemoryFileSystem(projectRoot);
   const commandExecutor = new RecordingExecutor();
   const services: OrchestratorServices = {
