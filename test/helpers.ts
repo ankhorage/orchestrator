@@ -9,13 +9,13 @@ import type {
 import type { ModuleDefinition } from "../src/module/types";
 import { createOrchestratorWithServices } from "../src/orchestrator/createOrchestrator";
 
-export interface RecordedCommand {
+interface RecordedCommand {
   cwd: string;
   command: string;
   args: string[];
 }
 
-export class MemoryFileSystem implements FileSystem {
+class MemoryFileSystem implements FileSystem {
   private readonly files = new Map<string, string>();
 
   constructor(private readonly projectRoot: string) {}
@@ -88,7 +88,7 @@ export class MemoryFileSystem implements FileSystem {
   }
 }
 
-export class RecordingExecutor implements CommandExecutor {
+class RecordingExecutor implements CommandExecutor {
   public readonly commands: RecordedCommand[] = [];
   private readonly failures = new Map<string, CommandResult>();
 
