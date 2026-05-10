@@ -33,4 +33,4 @@ jobs:
         run: bun run test
 
       - name: Knip
-        run: bunx knip
+        run: bun run knip
