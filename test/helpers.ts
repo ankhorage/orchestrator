@@ -1,13 +1,13 @@
-import path from "node:path";
+import path from 'node:path';
 
 import type {
   CommandExecutor,
   CommandResult,
   FileSystem,
   OrchestratorServices,
-} from "../src/fs/types";
-import type { ModuleDefinition } from "../src/module/types";
-import { createOrchestratorWithServices } from "../src/orchestrator/createOrchestrator";
+} from '../src/fs/types';
+import type { ModuleDefinition } from '../src/module/types';
+import { createOrchestratorWithServices } from '../src/orchestrator/createOrchestrator';
 
 interface RecordedCommand {
   cwd: string;
@@ -70,16 +70,12 @@ class MemoryFileSystem implements FileSystem {
       }
     }
 
-    return Promise.resolve(
-      [...entries].sort((left, right) => left.localeCompare(right)),
-    );
+    return Promise.resolve([...entries].sort((left, right) => left.localeCompare(right)));
   }
 
   snapshot(): Record<string, string> {
     return Object.fromEntries(
-      [...this.files.entries()].sort(([left], [right]) =>
-        left.localeCompare(right),
-      ),
+      [...this.files.entries()].sort(([left], [right]) => left.localeCompare(right)),
     );
   }
 
@@ -103,8 +99,8 @@ class RecordingExecutor implements CommandExecutor {
 
     return Promise.resolve({
       code: 0,
-      stdout: "",
-      stderr: "",
+      stdout: '',
+      stderr: '',
     });
   }
 
@@ -118,7 +114,7 @@ export function createTestOrchestrator(args: {
   projectRoot?: string;
   now?: () => string;
 }) {
-  const projectRoot = args.projectRoot ?? "/virtual/project";
+  const projectRoot = args.projectRoot ?? '/virtual/project';
   const fileSystem = new MemoryFileSystem(projectRoot);
   const commandExecutor = new RecordingExecutor();
   const services: OrchestratorServices = {

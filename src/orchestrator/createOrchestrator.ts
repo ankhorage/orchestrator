@@ -1,13 +1,13 @@
-import { NodeCommandExecutor } from "../fs/exec";
-import { NodeFileSystem } from "../fs/fileSystem";
-import { resolveProjectPath } from "../fs/paths";
-import type { OrchestratorServices } from "../fs/types";
-import { ledgerPath } from "../ledger/helpers";
-import type { ModuleLedger } from "../ledger/types";
-import type { ModuleDefinition } from "../module/types";
-import { executeModuleActions } from "./actionExecutor";
-import { createModuleRegistry, resolveInstallOrder } from "./dependencyGraph";
-import { uninstallFromLedger } from "./uninstall";
+import { NodeCommandExecutor } from '../fs/exec';
+import { NodeFileSystem } from '../fs/fileSystem';
+import { resolveProjectPath } from '../fs/paths';
+import type { OrchestratorServices } from '../fs/types';
+import { ledgerPath } from '../ledger/helpers';
+import type { ModuleLedger } from '../ledger/types';
+import type { ModuleDefinition } from '../module/types';
+import { executeModuleActions } from './actionExecutor';
+import { createModuleRegistry, resolveInstallOrder } from './dependencyGraph';
+import { uninstallFromLedger } from './uninstall';
 
 export interface CreateOrchestratorOptions {
   modules: ModuleDefinition[];
@@ -27,16 +27,11 @@ export interface RemoveModuleResult {
 }
 
 export interface Orchestrator {
-  installModule(
-    moduleId: string,
-    options: InstallModuleOptions,
-  ): Promise<InstallModuleResult>;
+  installModule(moduleId: string, options: InstallModuleOptions): Promise<InstallModuleResult>;
   removeModule(moduleId: string): Promise<RemoveModuleResult>;
 }
 
-export function createOrchestrator(
-  options: CreateOrchestratorOptions,
-): Orchestrator {
+export function createOrchestrator(options: CreateOrchestratorOptions): Orchestrator {
   return createOrchestratorWithServices(options, {
     fileSystem: new NodeFileSystem(),
     commandExecutor: new NodeCommandExecutor(),
@@ -60,11 +55,7 @@ export function createOrchestratorWithServices(
       }
 
       const installOrder = resolveInstallOrder(moduleId, registry);
-      const requestedLedger = await readLedger(
-        options.projectRoot,
-        moduleId,
-        fileSystem,
-      );
+      const requestedLedger = await readLedger(options.projectRoot, moduleId, fileSystem);
 
       if (requestedLedger) {
         await removeInstalledModule({
@@ -113,9 +104,9 @@ export function createOrchestratorWithServices(
             moduleVersion: moduleDefinition.version,
             installedAt: now(),
             config,
-            dependencies: [
-              ...new Set(moduleDefinition.dependencies ?? []),
-            ].sort((left, right) => left.localeCompare(right)),
+            dependencies: [...new Set(moduleDefinition.dependencies ?? [])].sort((left, right) =>
+              left.localeCompare(right),
+            ),
             actions,
             applied,
           };
@@ -128,9 +119,7 @@ export function createOrchestratorWithServices(
           installed: installedDuringOperation,
         };
       } catch (error) {
-        for (const installedModuleId of [
-          ...installedDuringOperation,
-        ].reverse()) {
+        for (const installedModuleId of [...installedDuringOperation].reverse()) {
           await removeInstalledModule({
             projectRoot: options.projectRoot,
             moduleId: installedModuleId,
@@ -163,17 +152,11 @@ export function createOrchestratorWithServices(
 async function removeInstalledModule(args: {
   projectRoot: string;
   moduleId: string;
-  fileSystem: OrchestratorServices["fileSystem"];
-  commandExecutor: OrchestratorServices["commandExecutor"];
+  fileSystem: OrchestratorServices['fileSystem'];
+  commandExecutor: OrchestratorServices['commandExecutor'];
   skipDependencyCheck: boolean;
 }): Promise<void> {
-  const {
-    projectRoot,
-    moduleId,
-    fileSystem,
-    commandExecutor,
-    skipDependencyCheck,
-  } = args;
+  const { projectRoot, moduleId, fileSystem, commandExecutor, skipDependencyCheck } = args;
   const ledger = await readLedger(projectRoot, moduleId, fileSystem);
 
   if (!ledger) {
@@ -184,9 +167,7 @@ async function removeInstalledModule(args: {
     const installedLedgers = await listLedgers(projectRoot, fileSystem);
     const dependents = installedLedgers
       .filter(
-        (candidate) =>
-          candidate.moduleId !== moduleId &&
-          candidate.dependencies.includes(moduleId),
+        (candidate) => candidate.moduleId !== moduleId && candidate.dependencies.includes(moduleId),
       )
       .map((candidate) => candidate.moduleId)
       .sort((left, right) => left.localeCompare(right));
@@ -194,7 +175,7 @@ async function removeInstalledModule(args: {
     if (dependents.length > 0) {
       throw new Error(
         `Cannot remove "${moduleId}" while installed modules still depend on it: ${dependents.join(
-          ", ",
+          ', ',
         )}`,
       );
     }
@@ -213,44 +194,37 @@ async function removeInstalledModule(args: {
 async function readLedger(
   projectRoot: string,
   moduleId: string,
-  fileSystem: OrchestratorServices["fileSystem"],
+  fileSystem: OrchestratorServices['fileSystem'],
 ): Promise<ModuleLedger | null> {
-  return fileSystem.readJson<ModuleLedger>(
-    resolveProjectPath(projectRoot, ledgerPath(moduleId)),
-  );
+  return fileSystem.readJson<ModuleLedger>(resolveProjectPath(projectRoot, ledgerPath(moduleId)));
 }
 
 async function writeLedger(
   projectRoot: string,
   ledger: ModuleLedger,
-  fileSystem: OrchestratorServices["fileSystem"],
+  fileSystem: OrchestratorServices['fileSystem'],
 ): Promise<void> {
-  await fileSystem.writeJson(
-    resolveProjectPath(projectRoot, ledgerPath(ledger.moduleId)),
-    ledger,
-  );
+  await fileSystem.writeJson(resolveProjectPath(projectRoot, ledgerPath(ledger.moduleId)), ledger);
 }
 
 async function deleteLedger(
   projectRoot: string,
   moduleId: string,
-  fileSystem: OrchestratorServices["fileSystem"],
+  fileSystem: OrchestratorServices['fileSystem'],
 ): Promise<void> {
-  await fileSystem.remove(
-    resolveProjectPath(projectRoot, ledgerPath(moduleId)),
-  );
+  await fileSystem.remove(resolveProjectPath(projectRoot, ledgerPath(moduleId)));
 }
 
 async function listLedgers(
   projectRoot: string,
-  fileSystem: OrchestratorServices["fileSystem"],
+  fileSystem: OrchestratorServices['fileSystem'],
 ): Promise<ModuleLedger[]> {
-  const ledgerDirectory = resolveProjectPath(projectRoot, ".ankh/ledger");
+  const ledgerDirectory = resolveProjectPath(projectRoot, '.ankh/ledger');
   const entries = await fileSystem.readDir(ledgerDirectory);
   const ledgers: ModuleLedger[] = [];
 
   for (const entry of entries) {
-    if (!entry.endsWith(".json")) {
+    if (!entry.endsWith('.json')) {
       continue;
     }
 

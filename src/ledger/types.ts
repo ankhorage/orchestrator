@@ -1,27 +1,27 @@
-import type { ModuleAction } from "../actions/types";
+import type { ModuleAction } from '../actions/types';
 
 interface PackageAdditionOperation {
-  kind: "pkg-add";
+  kind: 'pkg-add';
   name: string;
   version?: string;
   dev?: boolean;
 }
 
 interface FileWriteOperation {
-  kind: "file-write";
+  kind: 'file-write';
   path: string;
   prevContent: string | null;
 }
 
 interface TextBlockInsertOperation {
-  kind: "text-block-insert";
+  kind: 'text-block-insert';
   path: string;
   blockId: string;
   created: boolean;
 }
 
 interface JsonSetOperation {
-  kind: "json-set";
+  kind: 'json-set';
   path: string;
   jsonPath: string;
   prevExists: boolean;
@@ -30,7 +30,7 @@ interface JsonSetOperation {
 }
 
 interface JsonFileSnapshotOperation {
-  kind: "json-file-snapshot";
+  kind: 'json-file-snapshot';
   path: string;
   prevContent: string | null;
 }

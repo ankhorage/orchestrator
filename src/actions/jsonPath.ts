@@ -2,8 +2,8 @@ type JsonContainer = Record<string, unknown> | unknown[];
 
 function parseJsonPath(path: string): string[] {
   return path
-    .replace(/\[(\d+)\]/g, ".$1")
-    .split(".")
+    .replace(/\[(\d+)\]/g, '.$1')
+    .split('.')
     .filter(Boolean);
 }
 
@@ -69,9 +69,7 @@ export function setAtPath(
         throw new Error(`Invalid array index: ${part}`);
       }
       if (arrayIndex > current.length) {
-        throw new Error(
-          `Sparse array jump disallowed at index ${arrayIndex} in path ${path}`,
-        );
+        throw new Error(`Sparse array jump disallowed at index ${arrayIndex} in path ${path}`);
       }
     }
 
@@ -85,9 +83,7 @@ export function setAtPath(
 
     if (!isJsonContainer(existing)) {
       if (!createMissing) {
-        throw new Error(
-          `Path segment "${part}" missing and createMissing is false`,
-        );
+        throw new Error(`Path segment "${part}" missing and createMissing is false`);
       }
 
       const nextPart = parts[index + 1];
@@ -116,7 +112,7 @@ export function deepEqual(left: unknown, right: unknown): boolean {
     return left === right;
   }
 
-  if (typeof left !== "object") {
+  if (typeof left !== 'object') {
     return left === right;
   }
 
@@ -156,7 +152,7 @@ export function deepEqual(left: unknown, right: unknown): boolean {
 }
 
 function isJsonContainer(value: unknown): value is JsonContainer {
-  return typeof value === "object" && value !== null;
+  return typeof value === 'object' && value !== null;
 }
 
 function cloneContainer(value: JsonContainer): JsonContainer {
@@ -172,11 +168,7 @@ function getContainerValue(container: JsonContainer, key: string): unknown {
   return container[key];
 }
 
-function setContainerValue(
-  container: JsonContainer,
-  key: string,
-  value: unknown,
-): void {
+function setContainerValue(container: JsonContainer, key: string, value: unknown): void {
   if (Array.isArray(container)) {
     const index = Number(key);
     if (!Number.isInteger(index) || index < 0) {
