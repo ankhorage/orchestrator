@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- b502f8e: Update DEVTOOLS
+
 ## 0.2.1
 
 ### Patch Changes
