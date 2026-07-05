@@ -16,12 +16,7 @@ describe('orchestrator Ankh provider', () => {
     const commandPaths = provider.commands.map((command) => command.path.join(' '));
     const handlerPaths = provider.handlers.map((handler) => handler.path.join(' '));
 
-    expect(commandPaths).toEqual([
-      'module list',
-      'module install',
-      'module remove',
-      'module sync',
-    ]);
+    expect(commandPaths).toEqual(['module list', 'module install', 'module remove', 'module sync']);
     expect(handlerPaths).toEqual(commandPaths);
   });
 });
