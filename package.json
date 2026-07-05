@@ -30,6 +30,16 @@
       "default": "./dist/index.js"
     }
   },
+  "ankh": {
+    "category": "orchestrator",
+    "provider": "./dist/ankh.provider.js",
+    "capabilities": [
+      "orchestrator.modules",
+      "orchestrator.install",
+      "orchestrator.remove",
+      "orchestrator.sync"
+    ]
+  },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && bun x tsc -p tsconfig.json",
     "format": "ankhorage-prettier --write .",

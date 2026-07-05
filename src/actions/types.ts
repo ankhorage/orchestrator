@@ -41,7 +41,4 @@ export interface PatchTextBlockAction {
 }
 
 export type ModuleAction =
-  | EnsurePackagesAction
-  | WriteFilesAction
-  | JsonSetAction
-  | PatchTextBlockAction;
+  EnsurePackagesAction | WriteFilesAction | JsonSetAction | PatchTextBlockAction;
