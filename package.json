@@ -32,13 +32,8 @@
   },
   "ankh": {
     "category": "orchestrator",
-    "provider": "./dist/ankh.provider.js",
-    "capabilities": [
-      "orchestrator.modules",
-      "orchestrator.install",
-      "orchestrator.remove",
-      "orchestrator.sync"
-    ]
+    "provider": null,
+    "capabilities": []
   },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && bun x tsc -p tsconfig.json",
