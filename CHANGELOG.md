@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4
+
+### Patch Changes
+
+- 04f8ed5: Update package metadata.
+
 ## 0.2.3
 
 ### Patch Changes
