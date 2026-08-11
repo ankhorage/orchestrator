@@ -63,4 +63,6 @@ separately so hosts can explain lifecycle constraints without inferring them fro
 
 Calling `installModule()` for an installed module is an error. Configuration changes use the
 explicit `reconfigureModule()` operation, which updates the canonical ledger and module-owned
-outputs together.
+outputs together. If reconfiguration fails, files touched by the previous installation are restored
+to their exact contents from immediately before reconfiguration, including external or domain-owned
+edits made since installation.
