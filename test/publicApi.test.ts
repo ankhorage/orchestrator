@@ -3,9 +3,25 @@ import { join } from 'node:path';
 
 import { describe, expect, test } from 'bun:test';
 
+import * as publicApi from '../src/index';
 import { createOrchestrator, defineModule, type ModuleState } from '../src/index';
 
 describe('public module lifecycle API', () => {
+  test('keeps ledger storage and operation contracts out of the published API', async () => {
+    expect('LEDGER_DIR' in publicApi).toBe(false);
+    expect('ledgerPath' in publicApi).toBe(false);
+
+    const rootSource = await readFile(join(process.cwd(), 'src/index.ts'), 'utf8');
+    for (const internalSymbol of ['LEDGER_DIR', 'ledgerPath', 'AppliedOperation', 'ModuleLedger']) {
+      expect(rootSource).not.toContain(internalSymbol);
+    }
+
+    const packageJson = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8')) as {
+      exports?: Record<string, unknown>;
+    };
+    expect(Object.keys(packageJson.exports ?? {})).toEqual(['.']);
+  });
+
   test('queries registered modules through the root export', async () => {
     const orchestrator = createOrchestrator({
       projectRoot: '/tmp/ankhorage-orchestrator-public-api-test',
