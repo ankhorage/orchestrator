@@ -17,5 +17,15 @@ export {
   type InstallModuleOptions,
   type InstallModuleResult,
   type Orchestrator,
+  type ReconfigureModuleOptions,
+  type ReconfigureModuleResult,
   type RemoveModuleResult,
 } from './orchestrator/createOrchestrator';
+export type {
+  AvailableInstalledModuleState,
+  AvailableUninstalledModuleState,
+  ModuleInstallationState,
+  ModuleRegistrationState,
+  ModuleState,
+  UnavailableInstalledModuleState,
+} from './orchestrator/moduleState';
