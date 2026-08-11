@@ -11,8 +11,8 @@ import { executeModuleActions } from './actionExecutor';
 import { resolveInstallOrder } from './dependencyGraph';
 import {
   captureReconfigureFileSnapshot,
-  restoreReconfigureFileSnapshot,
   type ReconfigureFileSnapshot,
+  restoreReconfigureFileSnapshot,
 } from './reconfigureSnapshot';
 import { uninstallFromLedger } from './uninstall';
 
