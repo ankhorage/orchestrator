@@ -15,7 +15,7 @@ export function createModuleRegistry(modules: ModuleDefinition[]): Map<string, M
 
 export function resolveInstallOrder(
   moduleId: string,
-  registry: Map<string, ModuleDefinition>,
+  registry: ReadonlyMap<string, ModuleDefinition>,
 ): ModuleDefinition[] {
   if (!registry.has(moduleId)) {
     throw new Error(`Unknown module "${moduleId}".`);

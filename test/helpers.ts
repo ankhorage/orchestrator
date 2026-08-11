@@ -136,5 +136,7 @@ export function createTestOrchestrator(args: {
     fileSystem,
     commandExecutor,
     projectRoot,
+    recreateOrchestrator: (modules: ModuleDefinition[]) =>
+      createOrchestratorWithServices({ modules, projectRoot }, services),
   };
 }
