@@ -9,6 +9,11 @@ import type { ModuleLedger } from '../ledger/types';
 import type { ModuleDefinition } from '../module/types';
 import { executeModuleActions } from './actionExecutor';
 import { resolveInstallOrder } from './dependencyGraph';
+import {
+  captureReconfigureFileSnapshot,
+  type ReconfigureFileSnapshot,
+  restoreReconfigureFileSnapshot,
+} from './reconfigureSnapshot';
 import { uninstallFromLedger } from './uninstall';
 
 export interface ModuleLifecycleContext {
@@ -144,6 +149,11 @@ async function replaceInstalledModule(
     moduleId: definition.id,
     config,
   });
+  const fileSnapshot = await captureReconfigureFileSnapshot({
+    projectRoot: context.projectRoot,
+    applied: previousLedger.applied,
+    fileSystem: context.fileSystem,
+  });
   let nextLedger: ModuleLedger | undefined;
 
   try {
@@ -170,7 +180,7 @@ async function replaceInstalledModule(
     );
     await writeModuleLedger(context.projectRoot, nextLedger, context.fileSystem);
   } catch (error) {
-    await restorePreviousModule(context, previousLedger, nextLedger, error);
+    await restorePreviousModule(context, previousLedger, nextLedger, fileSnapshot, error);
     throw error;
   }
 }
@@ -179,6 +189,7 @@ async function restorePreviousModule(
   context: ModuleLifecycleContext,
   previousLedger: ModuleLedger,
   nextLedger: ModuleLedger | undefined,
+  fileSnapshot: ReconfigureFileSnapshot,
   originalError: unknown,
 ): Promise<void> {
   try {
@@ -197,6 +208,11 @@ async function restorePreviousModule(
       fileSystem: context.fileSystem,
       commandExecutor: context.commandExecutor,
       moduleId: previousLedger.moduleId,
+    });
+    await restoreReconfigureFileSnapshot({
+      projectRoot: context.projectRoot,
+      snapshot: fileSnapshot,
+      fileSystem: context.fileSystem,
     });
     await writeModuleLedger(
       context.projectRoot,
