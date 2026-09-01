@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2
+
+### Patch Changes
+
+- f2a7522: Publish the existing Orchestrator command provider through canonical package metadata and
+  synchronize the current Devtools repository policy and managed Ankhorage skills.
+
 ## 0.3.1
 
 ### Patch Changes
