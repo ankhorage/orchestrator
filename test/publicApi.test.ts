@@ -16,10 +16,12 @@ describe('public module lifecycle API', () => {
       expect(rootSource).not.toContain(internalSymbol);
     }
 
-    const packageJson = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8')) as {
-      exports?: Record<string, unknown>;
-    };
-    expect(Object.keys(packageJson.exports ?? {})).toEqual(['.']);
+    const packageJson = await readPackageJsonAsync();
+    expect(Object.keys(packageJson.exports ?? {})).toEqual(['.', './cli']);
+    expect(packageJson.exports?.['./cli']).toEqual({
+      types: './dist/cli/index.d.ts',
+      default: './dist/cli/index.js',
+    });
   });
 
   test('queries registered modules through the root export', async () => {
@@ -47,10 +49,7 @@ describe('public module lifecycle API', () => {
   });
 
   test('keeps the published package independent of Studio and UI runtimes', async () => {
-    const packageJson = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8')) as {
-      dependencies?: Record<string, string>;
-      peerDependencies?: Record<string, string>;
-    };
+    const packageJson = await readPackageJsonAsync();
     const runtimePackages = new Set([
       ...Object.keys(packageJson.dependencies ?? {}),
       ...Object.keys(packageJson.peerDependencies ?? {}),
@@ -62,3 +61,13 @@ describe('public module lifecycle API', () => {
     expect(runtimePackages.has('react-native')).toBe(false);
   });
 });
+
+interface PackageJson {
+  readonly dependencies?: Readonly<Record<string, string>>;
+  readonly exports?: Readonly<Record<string, unknown>>;
+  readonly peerDependencies?: Readonly<Record<string, string>>;
+}
+
+async function readPackageJsonAsync(): Promise<PackageJson> {
+  return JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8')) as PackageJson;
+}

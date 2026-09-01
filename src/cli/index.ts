@@ -1,5 +1,6 @@
+import packageJson from '../../package.json';
+
 const ORCHESTRATOR_PACKAGE_NAME = '@ankhorage/orchestrator';
-const ORCHESTRATOR_PACKAGE_VERSION = '0.2.2';
 const ORCHESTRATOR_CATEGORY = 'orchestrator';
 
 const ORCHESTRATOR_CAPABILITIES = [
@@ -56,7 +57,7 @@ const handlers = commands.map((command) => ({
 const provider = {
   id: ORCHESTRATOR_PACKAGE_NAME,
   category: ORCHESTRATOR_CATEGORY,
-  version: ORCHESTRATOR_PACKAGE_VERSION,
+  version: packageJson.version,
   capabilities: ORCHESTRATOR_CAPABILITIES,
   commands,
   handlers,
