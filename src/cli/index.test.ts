@@ -20,9 +20,10 @@ describe('orchestrator Ankh provider', () => {
 
     expect(commandPaths).toEqual(['module list', 'module install', 'module remove', 'module sync']);
     expect(handlerPaths).toEqual(commandPaths);
-    expect(
-      provider.commands.find((command) => command.path.join(' ') === 'module remove')?.aliases,
-    ).toEqual(['uninstall']);
+    const removeCommand = provider.commands.find(
+      (command) => command.path.join(' ') === 'module remove',
+    );
+    expect(removeCommand).toHaveProperty('aliases', ['uninstall']);
     expect(packageJson.ankh).toEqual({
       category: 'orchestrator',
       provider: './dist/cli/index.js',
