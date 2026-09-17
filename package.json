@@ -15,12 +15,13 @@
     "url": "https://github.com/ankhorage/orchestrator/issues"
   },
   "keywords": [
-    "typescript",
-    "bun",
-    "orchestration",
+    "ankhorage",
     "automation",
+    "bun",
     "developer-tools",
-    "modules"
+    "modules",
+    "orchestration",
+    "typescript"
   ],
   "files": [
     "dist"
