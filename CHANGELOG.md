@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3
+
+### Patch Changes
+
+- dd5a3b0: Declare `uninstall` as a valid single-token alias for `module remove` so the Ankh provider manifest passes validation.
+
 ## 0.3.2
 
 ### Patch Changes
