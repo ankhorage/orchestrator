@@ -28,7 +28,7 @@ const commands = [
     path: ['module', 'remove'],
     summary: 'Remove a module through an orchestrator-backed host lifecycle.',
     capability: 'orchestrator.remove',
-    aliases: ['module uninstall'],
+    aliases: ['uninstall'],
     examples: ['ankh orchestrator module remove expo-localization'],
   },
   {
