@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.5
+
+### Patch Changes
+
+- 075639a: Update dependencies from Renovate pull request #84.
+
 ## 0.3.4
 
 ### Patch Changes
