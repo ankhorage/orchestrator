@@ -61,8 +61,8 @@
     "changeset:status": "ankhorage-changeset status --since=origin/main"
   },
   "devDependencies": {
-    "@ankhorage/ankh": "^0.10.4",
-    "@ankhorage/devtools": "^1.21.3",
+    "@ankhorage/ankh": "^0.10.80",
+    "@ankhorage/devtools": "^2.0.114",
     "@ankhorage/doctor": "^0.10.8",
     "@types/bun": "^1.4.2",
     "@types/node": "^25.6.0",
