@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+### Minor Changes
+
+- 94a3445: Publish canonical Ankh capability descriptors for Orchestrator lifecycle commands.
+
 ## 0.3.5
 
 ### Patch Changes
