@@ -9,16 +9,16 @@ describe('orchestrator Ankh provider', () => {
     expect(provider.id).toBe('@ankhorage/orchestrator');
     expect(provider.category).toBe('orchestrator');
     expect(provider.version).toBe(packageJson.version);
-    expect(provider.capabilities).toEqual(CAPABILITIES);
+    expect(provider.capabilities).toBe(CAPABILITIES);
 
     const commandPaths = provider.commands.map((command) => command.path.join(' '));
     const handlerPaths = provider.handlers.map((handler) => handler.path.join(' '));
+    const commandCapabilityIds = new Set(provider.commands.map(({ capability }) => capability));
+    const catalogCapabilityIds = new Set(CAPABILITIES.map(({ id }) => id));
 
     expect(commandPaths).toEqual(['module list', 'module install', 'module remove']);
     expect(handlerPaths).toEqual(commandPaths);
-    expect(provider.commands.map(({ capability }) => capability)).toEqual(
-      CAPABILITIES.map(({ id }) => id),
-    );
+    expect(commandCapabilityIds).toEqual(catalogCapabilityIds);
     const removeCommand = provider.commands.find(
       (command) => command.path.join(' ') === 'module remove',
     );
