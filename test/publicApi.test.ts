@@ -3,7 +3,6 @@ import { join } from 'node:path';
 
 import { describe, expect, test } from 'bun:test';
 
-import { CAPABILITIES } from '../src/capabilities/index';
 import * as publicApi from '../src/index';
 import { createOrchestrator, defineModule, type ModuleState } from '../src/index';
 
@@ -18,6 +17,13 @@ describe('public module lifecycle API', () => {
     }
 
     await expectPublicPackageExports();
+  });
+
+  test('publishes capabilities through the package subpath', async () => {
+    const packageJson = await readPackageJsonAsync();
+    const { CAPABILITIES } = await import('@ankhorage/orchestrator/capabilities');
+
+    expect(CAPABILITIES).toEqual(packageJson.ankh?.capabilities);
   });
 
   test('queries registered modules through the root export', async () => {
@@ -59,6 +65,9 @@ describe('public module lifecycle API', () => {
 });
 
 interface PackageJson {
+  readonly ankh?: {
+    readonly capabilities?: readonly unknown[];
+  };
   readonly dependencies?: Readonly<Record<string, string>>;
   readonly exports?: Readonly<Record<string, unknown>>;
   readonly peerDependencies?: Readonly<Record<string, string>>;
@@ -79,5 +88,4 @@ async function expectPublicPackageExports(): Promise<void> {
     types: './dist/capabilities/index.d.ts',
     default: './dist/capabilities/index.js',
   });
-  expect(CAPABILITIES).toHaveLength(3);
 }
