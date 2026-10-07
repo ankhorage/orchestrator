@@ -1,6 +1,6 @@
 {
   "name": "@ankhorage/orchestrator",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Headless lifecycle engine for deterministic Ankhorage project modules.",
   "type": "module",
   "license": "MIT",
