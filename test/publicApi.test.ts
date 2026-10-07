@@ -3,6 +3,7 @@ import { join } from 'node:path';
 
 import { describe, expect, test } from 'bun:test';
 
+import { CAPABILITIES } from '../src/capabilities/index';
 import * as publicApi from '../src/index';
 import { createOrchestrator, defineModule, type ModuleState } from '../src/index';
 
@@ -16,12 +17,7 @@ describe('public module lifecycle API', () => {
       expect(rootSource).not.toContain(internalSymbol);
     }
 
-    const packageJson = await readPackageJsonAsync();
-    expect(Object.keys(packageJson.exports ?? {})).toEqual(['.', './cli']);
-    expect(packageJson.exports?.['./cli']).toEqual({
-      types: './dist/cli/index.d.ts',
-      default: './dist/cli/index.js',
-    });
+    await expectPublicPackageExports();
   });
 
   test('queries registered modules through the root export', async () => {
@@ -70,4 +66,18 @@ interface PackageJson {
 
 async function readPackageJsonAsync(): Promise<PackageJson> {
   return JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8')) as PackageJson;
+}
+
+async function expectPublicPackageExports(): Promise<void> {
+  const packageJson = await readPackageJsonAsync();
+  expect(Object.keys(packageJson.exports ?? {})).toEqual(['.', './cli', './capabilities']);
+  expect(packageJson.exports?.['./cli']).toEqual({
+    types: './dist/cli/index.d.ts',
+    default: './dist/cli/index.js',
+  });
+  expect(packageJson.exports?.['./capabilities']).toEqual({
+    types: './dist/capabilities/index.d.ts',
+    default: './dist/capabilities/index.js',
+  });
+  expect(CAPABILITIES).toHaveLength(3);
 }
