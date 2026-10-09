@@ -107,7 +107,8 @@
   },
   "dependencies": {
     "@ankhorage/ankh": "^0.13.0",
-    "@ankhorage/contracts": "^24.1.0"
+    "@ankhorage/capability": "^0.2.1",
+    "@ankhorage/contracts": "^25.0.1"
   },
   "devDependencies": {
     "@ankhorage/devtools": "^2.3.9",

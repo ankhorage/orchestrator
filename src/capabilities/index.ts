@@ -1,4 +1,4 @@
-import type { Capability } from '@ankhorage/contracts/capabilities';
+import type { Capability } from '@ankhorage/contracts/capability';
 
 /*** Publish Orchestrator's executable lifecycle operations for Ankh discovery and bindings. */
 export const CAPABILITIES = [

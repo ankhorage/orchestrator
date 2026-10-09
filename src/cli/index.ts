@@ -1,5 +1,5 @@
 import type { AnkhRuntimeCommandProvider } from '@ankhorage/ankh';
-import type { Capability } from '@ankhorage/contracts/capabilities';
+import type { Capability } from '@ankhorage/contracts/capability';
 import type { AnkhCommandDescriptor } from '@ankhorage/contracts/cli';
 
 import packageJson from '../../package.json';
