@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2
+
+### Patch Changes
+
+- a864653: Update Ankhorage dependencies: `@ankhorage/ankh`.
+
 ## 0.4.1
 
 ### Patch Changes
