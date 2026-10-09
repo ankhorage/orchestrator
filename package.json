@@ -106,7 +106,7 @@
     "changeset:status": "ankhorage-changeset status --since=origin/main"
   },
   "dependencies": {
-    "@ankhorage/ankh": "^0.12.2",
+    "@ankhorage/ankh": "^0.13.0",
     "@ankhorage/contracts": "^24.1.0"
   },
   "devDependencies": {
