@@ -1,14 +1,13 @@
-import { isCapability } from '@ankhorage/contracts/capabilities';
+import { areCapabilityCatalogsEqual, isCapabilityCatalog } from '@ankhorage/capability';
 import { describe, expect, test } from 'bun:test';
 
 import packageJson from '../../package.json';
 import { CAPABILITIES } from './index.js';
 
 describe('Orchestrator capabilities', () => {
-  test('publishes unique canonical executable action targets', () => {
+  test('publishes a canonical executable action catalog', () => {
     expect(CAPABILITIES).toHaveLength(3);
-    expect(CAPABILITIES.every(isCapability)).toBeTrue();
-    expect(new Set(CAPABILITIES.map(({ id }) => id)).size).toBe(CAPABILITIES.length);
+    expect(isCapabilityCatalog(CAPABILITIES)).toBeTrue();
     for (const capability of CAPABILITIES) {
       expect(capability.owner).toBe('@ankhorage/orchestrator');
       expect(capability.access).toEqual(['invoke']);
@@ -17,7 +16,12 @@ describe('Orchestrator capabilities', () => {
   });
 
   test('keeps package discovery metadata identical to the source catalog', () => {
-    expect(JSON.stringify(packageJson.ankh.capabilities)).toBe(JSON.stringify(CAPABILITIES));
-    expect(packageJson.ankh.capabilities.every(isCapability)).toBeTrue();
+    const packageCapabilities = packageJson.ankh.capabilities;
+
+    expect(isCapabilityCatalog(packageCapabilities)).toBeTrue();
+    if (!isCapabilityCatalog(packageCapabilities)) {
+      throw new Error('Expected package capability metadata to be a valid capability catalog.');
+    }
+    expect(areCapabilityCatalogsEqual(packageCapabilities, CAPABILITIES)).toBeTrue();
   });
 });
