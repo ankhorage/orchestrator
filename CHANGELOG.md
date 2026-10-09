@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.3
+
+### Patch Changes
+
+- ea33de8: Use the standalone capability toolkit for capability catalog validation and comparison.
+
 ## 0.4.2
 
 ### Patch Changes
