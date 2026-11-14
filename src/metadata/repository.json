@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "kind": "engine",
+  "kind": "application",
   "title": "Ankhorage Orchestrator",
   "summary": "Executes deterministic install, configure, lifecycle, and uninstall actions for independently packaged project modules.",
   "purpose": "Provide a headless module lifecycle engine with explicit dependency ordering, state, actions, and rollback-aware file operations.",
