@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "kind": "engine",
+  "title": "Ankhorage Orchestrator",
+  "summary": "Executes deterministic install, configure, lifecycle, and uninstall actions for independently packaged project modules.",
+  "purpose": "Provide a headless module lifecycle engine with explicit dependency ordering, state, actions, and rollback-aware file operations.",
+  "domain": "project module orchestration",
+  "responsibilities": [
+    "Define project modules and resolve their dependency graph.",
+    "Execute module lifecycle actions through explicit filesystem and process boundaries.",
+    "Record module state and ledger information for reconfiguration and uninstall.",
+    "Expose orchestration through package, CLI, and capability entrypoints."
+  ],
+  "boundaries": [
+    "Does not own provider-specific module behavior or application UI.",
+    "Does not embed a particular hosting, package-manager, or deployment topology.",
+    "Does not bypass module dependency or lifecycle declarations with hidden global state."
+  ],
+  "audience": [
+    "Module authors implementing deterministic project changes.",
+    "Tooling that installs, reconfigures, or removes project modules."
+  ],
+  "useCases": [
+    "Install a dependency-ordered set of project modules.",
+    "Reconfigure modules from an explicit snapshot.",
+    "Uninstall a module using recorded lifecycle state."
+  ],
+  "architecture": {
+    "role": "Headless application engine coordinating module policy through filesystem and execution adapters.",
+    "invariants": [
+      "Module ordering is derived from declared dependencies.",
+      "Lifecycle actions are deterministic for the same explicit project state.",
+      "Provider-specific modules remain separately packaged consumers of the engine."
+    ]
+  },
+  "constraints": {
+    "limitations": [
+      "Filesystem and command effects depend on the configured host environment.",
+      "Correct reversal depends on module actions recording sufficient lifecycle state."
+    ]
+  }
+}
